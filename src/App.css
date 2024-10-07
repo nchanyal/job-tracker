@@ -3,6 +3,10 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+  --input-bg-color: #e5e7eb;
+  --form-control-height: 3.4em;
+  --active-submit-btn-color: #374151;
 }
 
 .logo {
