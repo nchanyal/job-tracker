@@ -1,17 +1,17 @@
 from django.db import models
-
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from .managers import CustomUserManager
+from django.core.validators import MinLengthValidator
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     """Custom user model where email is used instead of username."""
 
-    id = models.AutoField(primary_key=True)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)  # This is handled by Django's AbstractBaseUser
+    id = models.AutoField(primary_key=True, blank=False, null=False)
+    first_name = models.CharField(max_length=20, blank=False, null=False)
+    last_name = models.CharField(max_length=20, blank=False, null=False)
+    email = models.EmailField(unique=True, blank=False, null=False)
+    password = models.CharField(max_length=20, validators=[MinLengthValidator(5)], blank=False, null=False)  # This is handled by Django's AbstractBaseUser
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
