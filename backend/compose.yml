@@ -2,7 +2,7 @@ services:
   mysql:
     image: mysql:latest
     container_name: django-mysql-db
-    restart: always
+    restart: no
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: seekers
