@@ -51,10 +51,9 @@ class RegisterView(GenericAPIView):
 
 class JobApplicationView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = JobApplicationSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer = JobApplicationSerializerE(data=request.data)
 
         if serializer.is_valid():
             user_email = serializer.validated_data.get('user_email')
@@ -73,4 +72,9 @@ class JobApplicationView(GenericAPIView):
                 return Response({'detail': 'Invalid email'}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+    
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        queryset = JobApplication.objects.all().filter(user_id=user.id)
+        serializer = JobApplicationSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
