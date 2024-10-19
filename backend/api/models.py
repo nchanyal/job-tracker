@@ -12,7 +12,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=20, blank=False, null=False)
     last_name = models.CharField(max_length=20, blank=False, null=False)
     email = models.EmailField(unique=True, blank=False, null=False)
-    password = models.CharField(max_length=20, validators=[MinLengthValidator(5)], blank=False, null=False)  # This is handled by Django's AbstractBaseUser
+    password = models.CharField(max_length=128, validators=[MinLengthValidator(5)], blank=False, null=False)  # This is handled by Django's AbstractBaseUser
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

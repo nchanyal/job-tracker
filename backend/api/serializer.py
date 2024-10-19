@@ -5,13 +5,16 @@ class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('first_name', 'last_name', 'email', 'password')
-
-class JobApplicationSerializerE(serializers.ModelSerializer):
-    user_email = serializers.EmailField(write_only=True, required=True)
-
-    class Meta:
-        model = JobApplication
-        fields = ('user_email', 'job_title', 'company', 'job_location', 'application_status')
+    
+    def create(self, validated_data):
+        user = CustomUser(
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            email=validated_data['email']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 class JobApplicationSerializer(serializers.ModelSerializer):
     class Meta:
