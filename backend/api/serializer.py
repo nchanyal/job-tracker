@@ -19,4 +19,18 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class JobApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobApplication
-        fields = ('job_title', 'company', 'job_location', 'application_status')
+        fields = ('id', 'job_title', 'company', 'job_location', 'application_status')
+
+class SecondJobApplicationSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+
+    class Meta:
+        model = JobApplication
+        fields = ('id', 'job_title', 'company', 'job_location', 'application_status')
+
+    def validate_id(self, value):
+        try:
+            user = JobApplication.objects.get(id=value)
+            return value
+        except JobApplication.DoesNotExist:
+            raise serializers.ValidationError('Invalid id')

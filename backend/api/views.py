@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -67,6 +66,8 @@ class JobApplicationView(GenericAPIView):
                 application_status=serializer.validated_data.get('application_status')
             )
             jobApplication.save()
+            # Getting a new serializer that will include the field 'id'
+            serializer = JobApplicationSerializer(jobApplication)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -76,3 +77,22 @@ class JobApplicationView(GenericAPIView):
         queryset = JobApplication.objects.all().filter(user_id=user.id)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self, request, *args, **kwargs):
+        serializer = SecondJobApplicationSerializer(data=request.data)
+
+        if serializer.is_valid():
+            jobApplicationId = serializer.validated_data.get('id')
+            updated = JobApplication.objects.filter(id=jobApplicationId).update(
+                job_title=serializer.validated_data.get('job_title'),
+                company=serializer.validated_data.get('company'),
+                job_location=serializer.validated_data.get('job_location'),
+                application_status=serializer.validated_data.get('application_status')
+            )
+
+            if updated != 1:
+                return Response({'detail': 'Could not update job application'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
