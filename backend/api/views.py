@@ -83,17 +83,32 @@ class JobApplicationView(GenericAPIView):
 
         if serializer.is_valid():
             jobApplicationId = serializer.validated_data.get('id')
-            updated = JobApplication.objects.filter(id=jobApplicationId).update(
+            rowsUpdated = JobApplication.objects.filter(id=jobApplicationId).update(
                 job_title=serializer.validated_data.get('job_title'),
                 company=serializer.validated_data.get('company'),
                 job_location=serializer.validated_data.get('job_location'),
                 application_status=serializer.validated_data.get('application_status')
             )
 
-            if updated != 1:
+            if rowsUpdated != 1:
                 return Response({'detail': 'Could not update job application'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
             return Response(serializer.data, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    def delete(self, request, *args, **kwargs):
+        serializer = JobApplicationIdSerializer(data=request.data)
+
+        if serializer.is_valid():
+            jobApplicationId = serializer.validated_data.get('id')
+            updated = JobApplication.objects.filter(id=jobApplicationId).delete()
+            rowsDeleted = updated[0]
+
+            if rowsDeleted != 1:
+                return Response({'detail': 'Could not delete job application'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+            return Response(status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

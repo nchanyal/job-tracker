@@ -30,7 +30,7 @@ class SecondJobApplicationSerializer(serializers.ModelSerializer):
 
     def validate_id(self, value):
         try:
-            user = JobApplication.objects.get(id=value)
+            jobApplication = JobApplication.objects.get(id=value)
             return value
         except JobApplication.DoesNotExist:
             raise serializers.ValidationError('Invalid id')
@@ -40,11 +40,11 @@ class JobApplicationIdSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JobApplication
-        fields = ('id')
+        fields = ['id']
 
     def validate_id(self, value):
         try:
-            user = JobApplication.objects.get(id=value)
+            jobApplication = JobApplication.objects.get(id=value)
             return value
         except JobApplication.DoesNotExist:
             raise serializers.ValidationError('Invalid id')
