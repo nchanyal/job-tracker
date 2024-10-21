@@ -34,3 +34,17 @@ class SecondJobApplicationSerializer(serializers.ModelSerializer):
             return value
         except JobApplication.DoesNotExist:
             raise serializers.ValidationError('Invalid id')
+
+class JobApplicationIdSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+
+    class Meta:
+        model = JobApplication
+        fields = ('id')
+
+    def validate_id(self, value):
+        try:
+            user = JobApplication.objects.get(id=value)
+            return value
+        except JobApplication.DoesNotExist:
+            raise serializers.ValidationError('Invalid id')
