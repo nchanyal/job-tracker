@@ -78,22 +78,25 @@ class JobApplicationView(GenericAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def put(self, request, *args, **kwargs):
-        serializer = SecondJobApplicationSerializer(data=request.data)
+    def put(self, request, jobApplicationId=None, *args, **kwargs):
+        if jobApplicationId is None:
+            return Response({'detail': 'Must include valid id as path parameter'}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
-            jobApplicationId = serializer.validated_data.get('id')
-            rowsUpdated = JobApplication.objects.filter(id=jobApplicationId).update(
-                job_title=serializer.validated_data.get('job_title'),
-                company=serializer.validated_data.get('company'),
-                job_location=serializer.validated_data.get('job_location'),
-                application_status=serializer.validated_data.get('application_status')
-            )
-
-            if rowsUpdated != 1:
-                return Response({'detail': 'Could not update job application'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            try:
+                jobApplication = JobApplication.objects.get(id=jobApplicationId)
+                jobApplication.job_title=serializer.validated_data.get('job_title'),
+                jobApplication.company=serializer.validated_data.get('company'),
+                jobApplication.job_location=serializer.validated_data.get('job_location'),
+                jobApplication.application_status=serializer.validated_data.get('application_status')
+                jobApplication.save()
+                # Getting a new serializer that will include the field 'id'
+                serializer = JobApplicationSerializer(jobApplication)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except JobApplication.DoesNotExist:
+                return Response({'detail': 'Invalid id'}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

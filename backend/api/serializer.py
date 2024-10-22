@@ -17,12 +17,14 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return user
 
 class JobApplicationSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = JobApplication
         fields = ('id', 'job_title', 'company', 'job_location', 'application_status')
 
 class SecondJobApplicationSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = JobApplication
