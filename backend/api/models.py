@@ -28,7 +28,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 class JobApplication(models.Model):
-    class JobStatus(models.TextChoices):
+    class ApplicationStatus(models.TextChoices):
         APPLYING = 'Applying'
         APPLIED = 'Applied'
         INTERVIEWING = 'Interviewing'
@@ -40,7 +40,16 @@ class JobApplication(models.Model):
     job_title = models.CharField(max_length=30, blank=False, null=False)
     company = models.CharField(max_length=20, blank=False, null=False)
     job_location = models.CharField(max_length=20, blank=False, null=False)
-    application_status = models.CharField(max_length=12, choices=JobStatus, blank=False, null=False)
+    application_status = models.CharField(max_length=12, choices=ApplicationStatus, blank=False, null=False)
 
     def __str__(self):
         return f'{self.job_title} {self.company} {self.application_status}'
+
+class JobInterview(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True, blank=False, null=False)
+    job_title = models.CharField(max_length=30, blank=False, null=False)
+    company = models.CharField(max_length=20, blank=False, null=False)
+    date = models.DateField()
+    time = models.TimeField()
+    location = models.CharField(max_length=50, blank=False, null=False)
