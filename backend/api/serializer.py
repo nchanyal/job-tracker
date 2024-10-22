@@ -20,3 +20,8 @@ class JobApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobApplication
         fields = ('id', 'job_title', 'company', 'job_location', 'application_status')
+
+class JobInterviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobInterview
+        fields = ('id', 'job_title', 'company', 'date', 'time', 'location')
