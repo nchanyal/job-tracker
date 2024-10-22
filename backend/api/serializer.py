@@ -20,17 +20,3 @@ class JobApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobApplication
         fields = ('id', 'job_title', 'company', 'job_location', 'application_status')
-
-class JobApplicationIdSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField()
-
-    class Meta:
-        model = JobApplication
-        fields = ['id']
-
-    def validate_id(self, value):
-        try:
-            jobApplication = JobApplication.objects.get(id=value)
-            return value
-        except JobApplication.DoesNotExist:
-            raise serializers.ValidationError('Invalid id')

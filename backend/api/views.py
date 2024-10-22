@@ -100,18 +100,19 @@ class JobApplicationView(GenericAPIView):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def delete(self, request, *args, **kwargs):
-        serializer = JobApplicationIdSerializer(data=request.data)
+    def delete(self, request, jobApplicationId=None, *args, **kwargs):
+        if jobApplicationId is None:
+            return Response({'detail': 'Must include valid id as path parameter'}, status=status.HTTP_400_BAD_REQUEST)
 
-        if serializer.is_valid():
-            jobApplicationId = serializer.validated_data.get('id')
-            updated = JobApplication.objects.filter(id=jobApplicationId).delete()
+        try:
+            jobApplication = JobApplication.objects.get(id=jobApplicationId)
+            updated = jobApplication.delete()
             rowsDeleted = updated[0]
 
             if rowsDeleted != 1:
                 return Response({'detail': 'Could not delete job application'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
             return Response(status=status.HTTP_200_OK)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except JobApplication.DoesNotExist:
+            return Response({'detail': 'Invalid id'}, status=status.HTTP_400_BAD_REQUEST)
 
