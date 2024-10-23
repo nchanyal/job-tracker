@@ -171,3 +171,19 @@ class JobInterviewView(GenericAPIView):
                 return Response({'detail': 'Invalid id'}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, jobInterviewId=None, *args, **kwargs):
+        if jobInterviewId is None:
+            return Response({'detail': 'Must include valid id as path parameter'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            jobInterview = JobInterview.objects.get(id=jobInterviewId)
+            updated = jobInterview.delete()
+            rowsDeleted = updated[0]
+
+            if rowsDeleted != 1:
+                return Response({'detail': 'Could not delete job interview'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+            return Response(status=status.HTTP_200_OK)
+        except JobInterview.DoesNotExist:
+            return Response({'detail': 'Invalid id'}, status=status.HTTP_400_BAD_REQUEST)
