@@ -116,3 +116,28 @@ class JobApplicationView(GenericAPIView):
         except JobApplication.DoesNotExist:
             return Response({'detail': 'Invalid id'}, status=status.HTTP_400_BAD_REQUEST)
 
+class JobInterviewView(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = JobInterviewSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            user = request.user
+            customUser = CustomUser.objects.get(id=user.id)
+            jobInterview = JobInterview(
+                user=customUser, 
+                job_title=serializer.validated_data.get('job_title'),
+                company=serializer.validated_data.get('company'),
+                date=serializer.validated_data.get('date'),
+                time=serializer.validated_data.get('time'),
+                location=serializer.validated_data.get('location')
+            )
+
+            jobInterview.save()
+            # Getting a new serializer that will include the field 'id'
+            serializer = JobInterviewSerializer(jobInterview)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
