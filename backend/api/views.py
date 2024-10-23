@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from .serializer import *
+from datetime import datetime
 
 class LoginView(APIView):
     def post(self, request):
@@ -87,9 +88,9 @@ class JobApplicationView(GenericAPIView):
         if serializer.is_valid():
             try:
                 jobApplication = JobApplication.objects.get(id=jobApplicationId)
-                jobApplication.job_title=serializer.validated_data.get('job_title'),
-                jobApplication.company=serializer.validated_data.get('company'),
-                jobApplication.job_location=serializer.validated_data.get('job_location'),
+                jobApplication.job_title=serializer.validated_data.get('job_title')
+                jobApplication.company=serializer.validated_data.get('company')
+                jobApplication.job_location=serializer.validated_data.get('job_location')
                 jobApplication.application_status=serializer.validated_data.get('application_status')
                 jobApplication.save()
                 # Getting a new serializer that will include the field 'id'
@@ -147,3 +148,26 @@ class JobInterviewView(GenericAPIView):
         queryset = JobInterview.objects.all().filter(user_id=user.id)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self, request, jobInterviewId=None, *args, **kwargs):
+        if jobInterviewId is None:
+            return Response({'detail': 'Must include valid id as path parameter'}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            try:
+                jobInterview = JobInterview.objects.get(id=jobInterviewId)
+                jobInterview.job_title=serializer.validated_data.get('job_title')
+                jobInterview.company=serializer.validated_data.get('company')
+                jobInterview.date=str(serializer.validated_data.get('date'))
+                jobInterview.time=serializer.validated_data.get('time')
+                jobInterview.location=serializer.validated_data.get('location')
+                jobInterview.save()
+                # Getting a new serializer that will include the field 'id'
+                serializer = JobInterviewSerializer(jobInterview)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except JobInterview.DoesNotExist:
+                return Response({'detail': 'Invalid id'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

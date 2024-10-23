@@ -30,5 +30,6 @@ urlpatterns = [
     path('api/register/', RegisterView.as_view(), name='register'),
     path('api/jobs/', JobApplicationView.as_view(), name='job_applications'),
     path('api/jobs/<int:jobApplicationId>/', JobApplicationView.as_view(), name='job_applications_id'),
-    path('api/interviews/', JobInterviewView.as_view(), name='job_interviews')
+    path('api/interviews/', JobInterviewView.as_view(), name='job_interviews'),
+    path('api/interviews/<int:jobInterviewId>/', JobInterviewView.as_view(), name='job_interviews_id')
 ]
