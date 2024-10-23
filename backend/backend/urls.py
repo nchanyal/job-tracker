@@ -28,6 +28,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/login/', LoginView.as_view(), name='login'),
     path('api/register/', RegisterView.as_view(), name='register'),
-    path('api/jobs/', JobApplicationView.as_view(), name='add_job_applications'),
-    path('api/jobs/<int:jobApplicationId>/', JobApplicationView.as_view(), name='add_job_applications')
+    path('api/jobs/', JobApplicationView.as_view(), name='job_applications'),
+    path('api/jobs/<int:jobApplicationId>/', JobApplicationView.as_view(), name='job_applications_id'),
+    path('api/interviews/', JobInterviewView.as_view(), name='job_interviews')
 ]
