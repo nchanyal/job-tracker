@@ -187,3 +187,12 @@ class JobInterviewView(GenericAPIView):
             return Response(status=status.HTTP_200_OK)
         except JobInterview.DoesNotExist:
             return Response({'detail': 'Invalid id'}, status=status.HTTP_400_BAD_REQUEST)
+
+class CustomUserView(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        user.password = ""
+        serializer = CustomUserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
