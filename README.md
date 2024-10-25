@@ -1,8 +1,30 @@
-# React + Vite
+# Job Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a job tracker application that allows registered users to track their job applications and upcoming interviews.
 
-Currently, two official plugins are available:
+*Note: This project is still under development and the images provided below only show what the completed application would look like.*
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+
+- Allow users to register or log in to their account
+- Authenticate and authorize users with JSON Web Tokens
+- Validate user data on both the client and server-side
+- Dynamically render a dashboard to display job applications and interviews
+- API follows RESTful design architecture
+
+## Technologies Used
+
+- CSS
+- ReactJS + Vite
+- Python Django
+- Django REST Framework
+- Docker Compose
+- MySQL database
+
+## Sign In Page
+
+![preview](./src/assets/sign-in.png)
+
+## Dashboard
+
+![preview](./src/assets/dashboard.png)
