@@ -6,12 +6,14 @@
 }
 
 .signIn,
+.signUp,
 .submitButton {
     font-family: 'Poppins';
     font-weight: 500; 
 }
 
-.signIn {
+.signIn,
+.signUp {
     font-size: 1.5em;
     color: black;
 }

@@ -4,7 +4,7 @@ function SignInForm() {
     return (
         <div className={`${classes.formContainer}`}>
             <p className={`${classes.signIn}`}>Sign in</p>
-            <form action='#' method='get'>
+            <form action='#' method='post'>
                 <div className={`${classes.inputContainer}`}>
                     <p>Email</p>
                     <input type='email' id='email' name='user_email' required/>
