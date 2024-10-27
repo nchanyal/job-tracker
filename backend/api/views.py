@@ -69,7 +69,8 @@ class JobApplicationView(GenericAPIView):
             jobApplication.save()
             # Getting a new serializer that will include the field 'id'
             serializer = JobApplicationSerializer(jobApplication)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            location = request.build_absolute_uri(f'/api/jobs/{jobApplication.id}/')
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers={'Location': location})
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -139,7 +140,8 @@ class JobInterviewView(GenericAPIView):
             jobInterview.save()
             # Getting a new serializer that will include the field 'id'
             serializer = JobInterviewSerializer(jobInterview)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            location = request.build_absolute_uri(f'/api/interviews/{jobInterview.id}/')
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers={'Location': location})
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
