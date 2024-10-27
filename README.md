@@ -8,7 +8,7 @@ This is a job tracker application that allows registered users to track their jo
 
 - Allow users to register or log in to their account
 - Authenticate and authorize users with JSON Web Tokens
-- Validate user data on both the client and server-side
+- Validate user data on both the client and server sides of the application
 - Dynamically render a dashboard to display job applications and interviews
 - API follows RESTful design architecture
 
@@ -18,12 +18,12 @@ This is a job tracker application that allows registered users to track their jo
 - ReactJS + Vite
 - Python Django
 - Django REST Framework
-- Docker Compose
+- Docker
 - MySQL database
 
-## Sign In Page
+## Sign Up Page
 
-![preview](./src/assets/sign-in.png)
+![preview](./src/assets/sign-up.png)
 
 ## Dashboard
 
