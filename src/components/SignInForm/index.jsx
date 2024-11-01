@@ -1,4 +1,5 @@
 import classes from './SignInForm.module.css';
+import { Link } from 'react-router-dom';
 
 function SignInForm() {
     return (
@@ -14,7 +15,7 @@ function SignInForm() {
                     <input type='password' id='password' name='user_password' required/>
                 </div>
                 <button className={`${classes.submitButton}`} type='submit'>Log In</button>
-                <p>No Account? Create one.</p>
+                <p>No Account? <Link to='/register'>Create one.</Link></p>
             </form>
         </div>
     );

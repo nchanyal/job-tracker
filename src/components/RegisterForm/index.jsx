@@ -1,4 +1,5 @@
 import classes from '../SignInForm/SignInForm.module.css';
+import { Link } from 'react-router-dom';
 
 function RegisterForm() {
     return (
@@ -22,7 +23,7 @@ function RegisterForm() {
                     <input type='password' id='password' name='user_password' maxLength={128} minLength={5} required/>
                 </div>
                 <button className={`${classes.submitButton}`} type='submit'>Create Account</button>
-                <p>Or log in.</p>
+                <p>Or <Link to='/login'>log in</Link>.</p>
             </form>
         </div>
     );
