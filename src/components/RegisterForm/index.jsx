@@ -1,6 +1,8 @@
+import axios from 'axios';
 import classes from '../SignInForm/SignInForm.module.css';
+import storeTokens from '../../Functions/StoreTokens';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useActionData, useNavigate } from 'react-router-dom';
 
 function RegisterForm() {
     const [formData, setFormData] = useState({
@@ -9,6 +11,9 @@ function RegisterForm() {
         email: '',
         password: '',
     });
+    const [errorMessages, setErrorMessages] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -19,10 +24,32 @@ function RegisterForm() {
         }));
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        //Prevents the user from spamming the submit button and sending multiple requests to the server
+        if(isLoading) return;
+
+        setIsLoading(true);
+        setErrorMessages([]);
+
+        try {
+            const response = await axios.post('http://localhost:8000/api/register/', formData);
+            storeTokens(response.data);
+            navigate('/dashboard');
+        }catch(error) {
+            Object.keys(error.response.data).forEach((key) => {
+                setErrorMessages([...errorMessages, error.response.data[key]]);
+            });
+        }finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <div className={`${classes.formContainer}`}>
             <p className={`${classes.signUp}`}>Sign Up</p>
-            <form action='#' method='post'>
+            {errorMessages.length > 0 && errorMessages}
+            <form action='#' method='post' onSubmit={handleSubmit}>
                 <div className={`${classes.inputContainer}`}>
                     <p>First Name</p>
                     <input type='text' id='firstName' name='first_name' onChange={handleChange} maxLength={20} required/>
@@ -39,7 +66,7 @@ function RegisterForm() {
                     <p>Password</p>
                     <input type='password' id='password' name='password' onChange={handleChange} maxLength={128} minLength={5} required/>
                 </div>
-                <button className={`${classes.submitButton}`} type='submit'>Create Account</button>
+                <button className={`${classes.submitButton}`} type='submit' disabled={isLoading}>Create Account</button>
                 <p>Or <Link to='/login'>log in</Link>.</p>
             </form>
         </div>

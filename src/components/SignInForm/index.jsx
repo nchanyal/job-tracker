@@ -1,5 +1,6 @@
 import classes from './SignInForm.module.css';
 import axios from 'axios';
+import storeTokens from '../../Functions/StoreTokens';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -12,11 +13,6 @@ function SignInForm() {
     const [errorMessages, setErrorMessages] = useState([]);
     const [errorIsThrown, setErrorIsThrown] = useState(false);
     const navigate = useNavigate();
-
-    const storeTokens = (tokens) => {
-        localStorage.setItem('refreshToken', tokens['refresh']);
-        localStorage.setItem('accessToken', tokens['access']);
-    }
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -45,7 +41,6 @@ function SignInForm() {
             Object.keys(errorData).forEach((key) => {
                 setErrorMessages([...errorMessages, errorData[key]])
             });
-            console.log('Error during login!', error.response.data)
         }finally {
             setIsLoading(false);
         }
