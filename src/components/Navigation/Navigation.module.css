@@ -1,0 +1,41 @@
+.appNavigation {
+    display: flex;
+    justify-content: space-between;
+}
+
+.appNavigation > div {
+    display: flex;
+    align-items: center;
+}
+
+.appNavigation > div:first-of-type {
+    align-items: center;
+    gap: var(--iconGap);
+}
+
+.appNavigation > div:last-of-type {
+    gap: 15px;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 500;
+    font-family: 'Outfit';
+}
+
+.dashboard,
+.account {
+    display: flex;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+    width: 13rem;
+    gap: 10px;
+}
+
+.dashboard > p,
+.account > p {
+    font-family: 'Poppins';
+    font-size: 20px;
+}

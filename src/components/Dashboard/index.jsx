@@ -1,6 +1,10 @@
+import Navigation from "../Navigation";
+
 function Dashboard() {
     return (
-        <div>Dashboard</div>
+        <>
+            <Navigation />
+        </>
     );
 }
 
