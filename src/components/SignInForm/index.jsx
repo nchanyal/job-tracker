@@ -10,7 +10,7 @@ function SignInForm() {
         password: '',
     });
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMessages, setErrorMessages] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -28,7 +28,7 @@ function SignInForm() {
         if(isLoading) return;
 
         setIsLoading(true);
-        setErrorMessages([]);
+        setErrorMessage('');
 
         try {
             const response = await axios.post('http://localhost:8000/api/login/', formData);
@@ -36,7 +36,7 @@ function SignInForm() {
             navigate('/dashboard');
         }catch(error) {
             Object.keys(error.response.data).forEach((key) => {
-                setErrorMessages([...errorMessages, error.response.data[key]])
+                setErrorMessage(error.response.data[key]);
             });
         }finally {
             setIsLoading(false);
@@ -46,7 +46,7 @@ function SignInForm() {
     return (
         <div className={`${classes.formContainer}`}>
             <p className={`${classes.signIn}`}>Sign in</p>
-            {errorMessages.length > 0 && errorMessages}
+            {errorMessage !== '' && <p style={{color:'red'}}>{errorMessage}</p>}
             <form action='#' method='post' onSubmit={handleSubmit}>
                 <div className={`${classes.inputContainer}`}>
                     <p>Email</p>
