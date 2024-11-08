@@ -53,7 +53,7 @@ function RegisterForm() {
         <div className={`${classes.formContainer}`}>
             <p className={`${classes.signUp}`}>Sign Up</p>
             {errorMessages.length > 0 && <p style={{color:'red'}}>{errorMessages}</p>}
-            <form action='#' method='post' onSubmit={handleSubmit}>
+            <form action='#' method='post' onSubmit={handleSubmit} className={`${classes.form}`}>
                 <div className={`${classes.inputContainer}`}>
                     <p>First Name</p>
                     <input type='text' id='firstName' name='first_name' onChange={handleChange} maxLength={20} required/>

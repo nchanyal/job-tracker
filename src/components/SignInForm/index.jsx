@@ -47,7 +47,7 @@ function SignInForm() {
         <div className={`${classes.formContainer}`}>
             <p className={`${classes.signIn}`}>Sign in</p>
             {errorMessage !== '' && <p style={{color:'red'}}>{errorMessage}</p>}
-            <form action='#' method='post' onSubmit={handleSubmit}>
+            <form action='#' method='post' onSubmit={handleSubmit} className={`${classes.form}`}>
                 <div className={`${classes.inputContainer}`}>
                     <p>Email</p>
                     <input type='email' id='email' name='email' onChange={handleChange} required/>
