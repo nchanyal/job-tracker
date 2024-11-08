@@ -37,9 +37,13 @@ function RegisterForm() {
             storeTokens(response.data);
             navigate('/dashboard');
         }catch(error) {
+            const messages = [];
+
             Object.keys(error.response.data).forEach((key) => {
-                setErrorMessages([...errorMessages, error.response.data[key]]);
+                messages.push(error.response.data[key]);
             });
+
+            setErrorMessages([messages]);
         }finally {
             setIsLoading(false);
         }
@@ -48,7 +52,7 @@ function RegisterForm() {
     return (
         <div className={`${classes.formContainer}`}>
             <p className={`${classes.signUp}`}>Sign Up</p>
-            {errorMessages.length > 0 && errorMessages}
+            {errorMessages.length > 0 && <p style={{color:'red'}}>{errorMessages}</p>}
             <form action='#' method='post' onSubmit={handleSubmit}>
                 <div className={`${classes.inputContainer}`}>
                     <p>First Name</p>
