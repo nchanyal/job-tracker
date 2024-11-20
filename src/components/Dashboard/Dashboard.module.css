@@ -1,3 +1,10 @@
 .dashboard {
-    background-color: var(--light-gray);
+    flex: 1;
+    background-color: var(--dashboard-bg-color);
+}
+
+.jobApplicationList {
+    list-style-type: none;
+    margin: 25px 48px 0;
+    padding: 0;
 }

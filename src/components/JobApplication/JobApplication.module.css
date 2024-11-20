@@ -1,0 +1,92 @@
+.jobApplication {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    border-left: 20px solid var(--job-application-ribbon-color);
+    margin-bottom: 30px;
+    height: 8.5rem;
+    box-shadow: 0 0 4px rgba(0, 0, 0, .25);
+}
+
+.leftContainer {
+    margin-left: 17px;
+}
+
+.jobApplicationTitle {
+    font-family: 'Roboto', system-ui;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 5px 0 7px;
+    color: black;
+}
+
+.leftContainer > div {
+    display: grid;
+    grid-template-columns: 25px 250px;
+    grid-template-rows: repeat(2, 30px);
+    column-gap: 0.5em;
+    row-gap: 0.2em;
+    margin-bottom: 1rem;
+}
+
+.leftContainer > div > p {
+    margin: 0;
+    text-align: left;
+    font-family: 'Roboto Serif', system-ui;
+    color: var(--application-description-color);
+    font-weight: 500;
+}
+
+.rightContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: 50px;
+    column-gap: 1.4rem;
+}
+
+.rightContainer > p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-family: 'Roboto', system-ui;
+    font-weight: 500;
+    color: black;
+    font-size: 1.2em;
+}
+
+.rightContainer > button {
+    background-color: white;
+    padding: 0;
+    font-family: 'Roboto', system-ui;
+    font-weight: 500;
+    font-size: 1.2em;
+}
+
+.rightContainer > button:first-of-type {
+    border: 2px solid var(--edit-button-color);
+    border-radius: 0;
+    color: var(--edit-button-color);
+}
+
+.rightContainer > button:first-of-type:active {
+    color: white;
+    background-color: var(--edit-button-color);
+}
+
+.rightContainer > button:last-of-type {
+    border: 2px solid var(--delete-button-color);
+    border-radius: 0;
+    color: var(--delete-button-color);
+}
+
+.rightContainer > button:last-of-type:active {
+    color: white;
+    background-color: var(--delete-button-color);
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+}

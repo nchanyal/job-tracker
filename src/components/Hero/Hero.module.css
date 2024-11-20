@@ -37,7 +37,7 @@
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 18px;
-    border-bottom: 10px solid var(--light-gray);
+    border-bottom: 10px solid var(--dashboard-bg-color);
     border-left-width: 0;
     border-right-width: 0;
 }
