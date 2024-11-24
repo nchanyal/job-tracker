@@ -1,0 +1,10 @@
+.top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.top > button {
+    padding: 0;
+    height: 24px;
+    margin: auto 0;
+}
