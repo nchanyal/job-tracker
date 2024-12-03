@@ -32,13 +32,23 @@ function Dashboard() {
                     }
                 });
 
-                const listItems = response.data.map((jobApplication) => 
-                    <li key={jobApplication['id']}>
-                        <JobApplication application={jobApplication}/>
-                    </li>
-                );
-
+                const listItems = response.data.map((jobApplication) => {
+                    return {
+                        id: jobApplication['id'],
+                        content: <li key={jobApplication['id']}>
+                                    <JobApplication 
+                                        application={jobApplication}
+                                        jobApplications={jobApplications}
+                                        setJobApplications={setJobApplications}
+                                        id={jobApplication['id']}
+                                        timedOutDialog={dialogRef}
+                                    />
+                                 </li>
+                    };
+                });
+                
                 setJobApplications([...listItems]);
+
             }else {
                 navigate('/login');
             }
@@ -56,6 +66,7 @@ function Dashboard() {
 
     const createJobApplication = async () => {
         try {
+            console.log(jobApplications);
             const accessToken = localStorage.getItem('accessToken');
 
             const response = await axios.post('http://localhost:8000/api/jobs/', formData, {
@@ -64,23 +75,38 @@ function Dashboard() {
                 }
             });
 
-            const returnedJobApplication = <li key={response.data['id']}><JobApplication application={response.data}/></li>
+            const returnedJobApplication = {
+                id: response.data['id'],
+                content: <li key={response.data['id']}>
+                            <JobApplication 
+                                application={response.data}
+                                jobApplications={jobApplications}
+                                setJobApplications={setJobApplications}
+                                id={response.data['id']}
+                                timedOutDialog={dialogRef}
+                            />
+                         </li>
+            };
 
             setJobApplications([...jobApplications, returnedJobApplication]);
 
             jobApplicationRef.current.close();
         } catch (error) {
-            if(error.response.status === 400){
-                jobApplicationRef.current.close();
-            }else if(error.response.status === 401){
-                const updatedTokens = await getNewTokens();
-
-                if(updatedTokens) {
-                    createJobApplications();
-                }else {
+            if(error.response){
+                if(error.response.status === 400){
                     jobApplicationRef.current.close();
-                    dialogRef.current.showModal();
+                }else if(error.response.status === 401){
+                    const updatedTokens = await getNewTokens();
+    
+                    if(updatedTokens) {
+                        createJobApplication();
+                    }else {
+                        jobApplicationRef.current.close();
+                        dialogRef.current.showModal();
+                    }
                 }
+            }else {
+                console.log(error.message);
             }
         }
     }
@@ -105,7 +131,7 @@ function Dashboard() {
             <Hero 
                 jobApplicationRef={jobApplicationRef}
             />
-            {jobApplications.length > 0 && <ul className={`${classes.jobApplicationList}`}>{jobApplications}</ul>}
+            {jobApplications.length > 0 && <ul className={`${classes.jobApplicationList}`}>{jobApplications.map((application) => application.content)}</ul>}
         </div>
     );
 }
